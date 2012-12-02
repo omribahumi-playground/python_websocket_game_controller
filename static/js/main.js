@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var wsrpc = new WebsocketRpc("ws://192.168.0.2:8888/joystick/1");
+	var wsrpc = new WebsocketRpc("ws://" + window.location.host +  "/joystick/1");
 	
 	wsrpc.onopen = function(){
 		$('.joybutton').click(function(){

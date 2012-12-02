@@ -26,7 +26,6 @@ Usage
 -----
 The idea is simple - the client dispatches method calls to the JoystickDispatcher, which control the VirtualJoystick class that sends messages to the driver through the DLL.
 Once running it, it defaults to listen on port 8888 and serve the static files on the root directory.
-You'll have to update static/js/main.js web socket address. Replace 192.168.0.2 on ws://192.168.0.2:8888/joystick/1 with your internal IP address.
 Simply run it and access http://<your_internal_ip_address>/ from your mobile phone. Don't forget connect your phone to Wifi first.
 
 Known issues
