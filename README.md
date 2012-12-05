@@ -38,5 +38,4 @@ TODO
 * Better documentation
 * Support for multiple clients and joysticks
 * Create separate repositories for lib.websocket.WebSocketRpcHandler and lib.vjoy.*
-* Improve the HTML5 example application. It looks horrible right now (I'm not a top-notch designer as you can tell)
 * Write a native wrapper to be able to keep the phone awake and prevent it from changing orientation
