@@ -47,7 +47,7 @@ class RpcHandlerWrapper(object):
     def wrap(cls, wrapped):
         """Use this function to wrap a RpcHandler class with another class."""
         if cls == RpcHandlerWrapper:
-            raise Exception("Method should only be callsed on subclasses of " +
+            raise Exception("Method should only be called on asubclasses of " +
                 cls.__class__.__name__)
         if not issubclass(wrapped, RpcHandler):
             raise Exception("Argument wrapped must be a subclass " +
