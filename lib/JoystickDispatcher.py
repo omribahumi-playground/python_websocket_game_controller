@@ -2,23 +2,25 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from lib.vjoy.vJoyInterface import *
-from lib.websocket.WebSocketRpcHandler import *
+from lib.RpcHandler import RpcHandler
 
 def maprange(s, a1, a2, b1, b2):
     return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
 
-class JoystickDispatcher(WebSocketRpcHandler):
+class JoystickDispatcher(RpcHandler):
     """
     This class dispatches commands to the VirtualJoystick interface
     """
 
-    # dictionary that maps all Axis attributes strings to their corresponding values
-    _axis = dict([(attr, getattr(Axis, attr)) for attr in [attr for attr in dir(Axis) if not attr.startswith('_')]])
+    # dictionary that maps all Axis attributes strings to their corresponding
+    # values
+    _axis = dict([(attr, getattr(Axis, attr)) for attr in \
+    [attr for attr in dir(Axis) if not attr.startswith('_')]])
 
     def initialize(self, vjoy):
         self.vjoy = vjoy
 
-    @WebSocketRpcHandler.expose
+    @RpcHandler.expose
     def axe(self, axe, value):
         if not axe in self._axis:
             print 'Unknown axe %r' % (axe,)
@@ -29,12 +31,12 @@ class JoystickDispatcher(WebSocketRpcHandler):
             axe.value = maprange(value, -10, 10, axe.min, axe.max);
             return True
     
-    @WebSocketRpcHandler.expose
+    @RpcHandler.expose
     def button(self, button, pressed):
         self.vjoy.button[button-1].pressed = pressed
         return True
         
-    @WebSocketRpcHandler.expose
+    @RpcHandler.expose
     def buttons(self):
         return len(self.vjoy.button)
         

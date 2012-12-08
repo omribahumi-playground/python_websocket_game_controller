@@ -43,7 +43,10 @@ $(document).ready(function(){
 	};
 	window.onresize();
 	
-	var wsrpc = new WebsocketRpc("ws://" + window.location.host +  "/joystick/1");
+	var wsrpc = new WebRpc(
+		"ws://" + window.location.host + "/websocket/joystick/1",
+		"/post/joystick/1"
+	);
 	
 	var oldX = 0, oldY = 0;
 	
@@ -58,9 +61,13 @@ $(document).ready(function(){
 				{
 					leftTouchId = touch.identifier;
 					leftPointBegin.set(touch.clientX, touch.clientY);
-					canvasDrawCircle(context, leftPointBegin.x, leftPointBegin.y, 6, "cyan", 40);
-					canvasDrawCircle(context, leftPointBegin.x, leftPointBegin.y, 2, "cyan", 60);
-				} else if (rightTouchId == -1 && touch.clientX > this.width/2) {
+					canvasDrawCircle(context, leftPointBegin.x,
+						leftPointBegin.y, 6, "cyan", 40);
+					canvasDrawCircle(context, leftPointBegin.x,
+						leftPointBegin.y, 2, "cyan", 60);
+				}
+				else if (rightTouchId == -1 && touch.clientX > this.width/2)
+				{
 					rightTouchId = touch.identifier;
 					wsrpc.call('button', [1, true], {}, null);
 				}
@@ -77,13 +84,19 @@ $(document).ready(function(){
 				if (touch.identifier == leftTouchId)
 				{
 					context.clearRect(0, 0, canvas.width, canvas.height);
-					var leftPointCurrent = new Point(touch.clientX, touch.clientY);
-					canvasDrawCircle(context, leftPointBegin.x, leftPointBegin.y, 6, "cyan", 40);
-					canvasDrawCircle(context, leftPointBegin.x, leftPointBegin.y, 2, "cyan", 60);
-					canvasDrawCircle(context, leftPointCurrent.x, leftPointCurrent.y, 2, "cyan", 60);
+					var leftPointCurrent = new Point(touch.clientX,
+						touch.clientY);
+					canvasDrawCircle(context, leftPointBegin.x,
+						leftPointBegin.y, 6, "cyan", 40);
+					canvasDrawCircle(context, leftPointBegin.x,
+						leftPointBegin.y, 2, "cyan", 60);
+					canvasDrawCircle(context, leftPointCurrent.x,
+						leftPointCurrent.y, 2, "cyan", 60);
 					leftPointCurrent.sub(leftPointBegin);
-					var x = Math.max(-10, Math.min(10, parseInt(leftPointCurrent.x/5)));
-					var y = Math.max(-10, Math.min(10, parseInt(leftPointCurrent.y/5)));
+					var x = Math.max(-10,
+						Math.min(10, parseInt(leftPointCurrent.x/5)));
+					var y = Math.max(-10,
+						Math.min(10, parseInt(leftPointCurrent.y/5)));
 					if (x != oldX)
 					{
 						wsrpc.call('axe', ['X', x], {}, null);
